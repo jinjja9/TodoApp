@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="backgr">#F2F4F7</color>
+    <color name="missPass">#A7AEB8</color>
+    <color name="blue">#007AFF</color>
+    <color name="gray">#999999</color>
+</resources>
