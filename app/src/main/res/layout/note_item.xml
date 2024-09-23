@@ -8,7 +8,7 @@
     android:padding="15dp">
 
     <TextView
-        android:id="@+id/titlecontent"
+        android:id="@+id/noteTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Design Logo"
@@ -24,7 +24,7 @@
         />
 
     <TextView
-        android:id="@+id/content"
+        android:id="@+id/noteDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Make Ui design for the mini project.."
@@ -33,7 +33,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titlecontent"
+        app:layout_constraintTop_toBottomOf="@id/noteTitle"
         android:layout_marginTop="5dp"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintHorizontal_bias="0"
@@ -49,7 +49,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titlecontent"
+        app:layout_constraintTop_toBottomOf="@id/noteTitle"
         android:layout_marginTop="60dp"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintHorizontal_bias="0"

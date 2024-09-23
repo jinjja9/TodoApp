@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
 
     implementation(libs.androidx.room.runtime)
+    implementation("androidx.room:room-ktx:2.5.2")
     ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)

@@ -15,7 +15,6 @@ class SignInFragment : Fragment() {
     private lateinit var binding: FragmentSignInBinding
     private var isPasswordVisible = false
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,8 +32,12 @@ class SignInFragment : Fragment() {
         binding.textforgetpassword.setOnClickListener {
             findNavController().navigate(R.id.action_signInFragment_to_forgetPasswordFragment)
         }
-        binding.buttonsignin.setOnClickListener{
-            findNavController().navigate(R.id.action_signInFragment_to_homeScreenFragment)
+
+        binding.buttonsignin.setOnClickListener {
+            val title = "Your title" // Thay đổi giá trị này theo ý bạn
+            val description = "Your description" // Thay đổi giá trị này theo ý bạn
+            val action = SignInFragmentDirections.actionSignInFragmentToHomeScreenFragment(title, description)
+            findNavController().navigate(action)
         }
 
         // An-Hien Pass
@@ -42,6 +45,7 @@ class SignInFragment : Fragment() {
             togglePasswordVisibility()
         }
     }
+
     private fun togglePasswordVisibility() {
         if (isPasswordVisible) {
             // Ẩn
@@ -52,9 +56,8 @@ class SignInFragment : Fragment() {
             binding.editpassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
             binding.imageViewEye.setImageResource(R.drawable.eye_on)
         }
-        // Di chuyen con tro đen cuối văn bản
-       binding.editpassword.setSelection(binding.editpassword.text.length)
+        // Di chuyển con trỏ đến cuối văn bản
+        binding.editpassword.setSelection(binding.editpassword.text.length)
         isPasswordVisible = !isPasswordVisible
     }
-
 }
