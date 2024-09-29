@@ -32,8 +32,6 @@
         android:overScrollMode="always"
         app:layout_constraintTop_toBottomOf="@id/element" />
 
-
-
     <EditText
         android:id="@+id/descriptionAddText"
         android:layout_width="match_parent"
@@ -53,7 +51,6 @@
         android:scrollHorizontally="false"
         android:textColorHint="@color/white"
         app:layout_constraintTop_toBottomOf="@id/titleAddText" />
-
 
     <EditText
         android:id="@+id/Addtime"
@@ -78,13 +75,13 @@
         app:layout_constraintTop_toBottomOf="@id/Addtime" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonadd"
+        android:id="@+id/buttonsave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:backgroundTint="@color/white"
         android:padding="10dp"
-        android:text="ADD TODO"
+        android:text="EDIT TODO"
         android:textColor="#A4CBFF"
         android:textSize="20sp"
         app:cornerRadius="10dp"

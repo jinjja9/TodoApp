@@ -26,7 +26,6 @@ class AddDialog : BottomSheetDialogFragment() {
         binding = FragmentAddBinding.inflate(inflater, container, false)
         noteViewModel = ViewModelProvider(requireActivity()).get(NoteViewModel::class.java)
 
-        // Xử lý nút thêm ghi chú
         binding.buttonadd.setOnClickListener {
             val title = binding.titleAddText.text.toString()
             val description = binding.descriptionAddText.text.toString()

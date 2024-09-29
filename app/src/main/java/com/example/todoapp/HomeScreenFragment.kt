@@ -1,11 +1,12 @@
 package com.example.todoapp
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.data.NoteViewModel
 import com.example.todoapp.databinding.FragmentHomeScreenBinding
@@ -13,7 +14,7 @@ import com.example.todoapp.dialog.AddDialog
 
 class HomeScreenFragment : Fragment() {
 
-    data class NoteItem(val title: String, val description: String)
+    data class NoteItem(val id: Int, val title: String, val description: String)
 
     private lateinit var binding: FragmentHomeScreenBinding
     private lateinit var noteAdapter: NoteAdapter
@@ -26,25 +27,30 @@ class HomeScreenFragment : Fragment() {
     ): View? {
         binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
 
-        // Khởi tạo adapter cho danh sách ghi chú
-        noteAdapter = NoteAdapter(noteList)
+        noteAdapter = NoteAdapter(noteList) { noteItem ->
+            val action = HomeScreenFragmentDirections.actionHomeScreenFragmentToDetailFragment(
+                noteId = noteItem.id,
+                title = noteItem.title,
+                description = noteItem.description,
+            )
+            findNavController().navigate(action)
+        }
+
+
         binding.recyclerView.adapter = noteAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Khởi tạo ViewModel
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
 
-        // Quan sát dữ liệu từ ViewModel
         noteViewModel.allNotes.observe(viewLifecycleOwner) { notes ->
             noteList.clear()
-            noteList.addAll(notes.map { NoteItem(it.title, it.description) })
-            noteAdapter.notifyDataSetChanged() // Cập nhật RecyclerView
+            noteList.addAll(notes.map { NoteItem(it.id, it.title, it.description) })
+            noteAdapter.notifyDataSetChanged()
         }
 
-        // Mở dialog để thêm ghi chú mới
         binding.addbutton.setOnClickListener {
-            val addDialog = AddDialog()
-            addDialog.show(parentFragmentManager, "AddDialog")
+            val addFragment = AddDialog()
+            addFragment.show(parentFragmentManager, "AddFragment")
         }
 
         return binding.root

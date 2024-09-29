@@ -1,59 +1,79 @@
 package com.example.todoapp
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.todoapp.data.Note
+import com.example.todoapp.data.NoteViewModel
+import com.example.todoapp.databinding.FragmentDetailBinding
+import com.example.todoapp.dialog.EditDialog
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [DetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentDetailBinding
+    private lateinit var noteViewModel: NoteViewModel
+    private var noteId: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false)
-    }
+    ): View {
+        binding = FragmentDetailBinding.inflate(inflater, container, false)
+        noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        arguments?.let { bundle ->
+            val args = DetailFragmentArgs.fromBundle(bundle)
+            noteId = args.noteId // Lưu noteId
+            binding.title.text = args.title
+            binding.description.text = args.description
+        }
+
+        // back
+        binding.left.setOnClickListener {
+            findNavController().navigate(R.id.action_detailFragment_to_homeScreenFragment)
+        }
+
+        // edit
+        binding.edit.setOnClickListener {
+            val editDialog = EditDialog()
+            val editArgs = Bundle().apply {
+                putInt("noteId", noteId)
+                putString("title", binding.title.text.toString())
+                putString("description", binding.description.text.toString())
             }
+            editDialog.arguments = editArgs
+            editDialog.show(parentFragmentManager, "EditDialog")
+        }
+
+        // delete
+        binding.delete.setOnClickListener {
+            showDeleteConfirmationDialog()
+        }
+
+        return binding.root
+    }
+    private fun showDeleteConfirmationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Delete TODO")
+        builder.setMessage("Are you sure you want to delete this TODO?")
+
+        // Dialog xoa
+        builder.setPositiveButton("Delete") { dialog, _ ->
+            val noteToDelete = Note(noteId, binding.title.text.toString(), binding.description.text.toString())
+            noteViewModel.delete(noteToDelete)
+            findNavController().navigate(R.id.action_detailFragment_to_homeScreenFragment)
+            dialog.dismiss() // dong dialog
+        }
+
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        builder.create().show()
     }
 }

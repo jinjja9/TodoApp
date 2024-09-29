@@ -77,6 +77,21 @@
         <action
             android:id="@+id/action_detailFragment_to_homeScreenFragment"
             app:destination="@id/homeScreenFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_editFragment"
+            app:destination="@id/editFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_editFragment2"
+            app:destination="@id/editFragment" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+        <argument
+            android:name="noteId"
+        app:argType="integer" />
     </fragment>
 
     <fragment
@@ -93,5 +108,24 @@
         <argument
             android:name="description"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.example.todoapp.dialog.EditDialog"
+        android:label="fragment_edit"
+        tools:layout="@layout/fragment_edit">
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="description"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_editFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment" />
+
+
     </fragment>
 </navigation>

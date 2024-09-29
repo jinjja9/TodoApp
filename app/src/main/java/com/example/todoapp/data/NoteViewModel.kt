@@ -14,7 +14,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         val noteDao = NoteDatabase.getDatabase(application).noteDao()
-        repository = NoteRepository(noteDao)
+        repository = NoteRepository(noteDao) //** Tach viewmo
         allNotes = repository.listNote
     }
 
