@@ -14,7 +14,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         val noteDao = NoteDatabase.getDatabase(application).noteDao()
-        repository = NoteRepository(noteDao) //** Tach viewmo
+        repository = NoteRepository(noteDao)
         allNotes = repository.listNote
     }
 
@@ -34,5 +34,9 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteNote(note)
         }
+    }
+
+    fun getNoteById(noteId: Int): LiveData<Note> {  // Thêm hàm này
+        return repository.getNoteById(noteId)
     }
 }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.data.Note
@@ -26,54 +27,57 @@ class DetailFragment : Fragment() {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
 
-        arguments?.let { bundle ->
-            val args = DetailFragmentArgs.fromBundle(bundle)
-            noteId = args.noteId // Lưu noteId
-            binding.title.text = args.title
-            binding.description.text = args.description
+        arguments?.let {
+            val args = DetailFragmentArgs.fromBundle(it)
+            noteId = args.noteId
         }
 
-        // back
-        binding.left.setOnClickListener {
-            findNavController().navigate(R.id.action_detailFragment_to_homeScreenFragment)
-        }
-
-        // edit
-        binding.edit.setOnClickListener {
-            val editDialog = EditDialog()
-            val editArgs = Bundle().apply {
-                putInt("noteId", noteId)
-                putString("title", binding.title.text.toString())
-                putString("description", binding.description.text.toString())
+        // Sử dụng noteId để lấy thông tin từ ViewModel
+        noteViewModel.getNoteById(noteId).observe(viewLifecycleOwner, Observer { note ->
+            note?.let {
+                binding.title.text = it.title
+                binding.description.text = it.description
             }
-            editDialog.arguments = editArgs
+        })
+
+        // Back
+        binding.left.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        // Edit
+        binding.edit.setOnClickListener {
+            val editDialog = EditDialog().apply {
+                arguments = Bundle().apply {
+                    putInt("noteId", noteId)
+                    putString("title", binding.title.text.toString())
+                    putString("description", binding.description.text.toString())
+                }
+            }
             editDialog.show(parentFragmentManager, "EditDialog")
         }
 
-        // delete
+        // Delete
         binding.delete.setOnClickListener {
             showDeleteConfirmationDialog()
         }
 
         return binding.root
     }
+
     private fun showDeleteConfirmationDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Delete TODO")
-        builder.setMessage("Are you sure you want to delete this TODO?")
-
-        // Dialog xoa
-        builder.setPositiveButton("Delete") { dialog, _ ->
-            val noteToDelete = Note(noteId, binding.title.text.toString(), binding.description.text.toString())
-            noteViewModel.delete(noteToDelete)
-            findNavController().navigate(R.id.action_detailFragment_to_homeScreenFragment)
-            dialog.dismiss() // dong dialog
-        }
-
-        builder.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
-        }
-
-        builder.create().show()
+        AlertDialog.Builder(requireContext())
+            .setTitle("Delete TODO")
+            .setMessage("Are you sure you want to delete this TODO?")
+            .setPositiveButton("Delete") { dialog, _ ->
+                val noteToDelete = Note(noteId, binding.title.text.toString(), binding.description.text.toString())
+                noteViewModel.delete(noteToDelete)
+                findNavController().popBackStack()
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create().show()
     }
 }

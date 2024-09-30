@@ -8,34 +8,31 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.todoapp.data.Note
 import com.example.todoapp.data.NoteViewModel
 import com.example.todoapp.databinding.FragmentHomeScreenBinding
 import com.example.todoapp.dialog.AddDialog
 
 class HomeScreenFragment : Fragment() {
 
-    data class NoteItem(val id: Int, val title: String, val description: String)
-
     private lateinit var binding: FragmentHomeScreenBinding
     private lateinit var noteAdapter: NoteAdapter
-    private val noteList = mutableListOf<NoteItem>()
+    private val noteList = mutableListOf<Note>()
     private lateinit var noteViewModel: NoteViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
 
-        noteAdapter = NoteAdapter(noteList) { noteItem ->
+        noteAdapter = NoteAdapter(noteList) { note ->
+            // Chỉ truyền noteId thay vì cả title và description
             val action = HomeScreenFragmentDirections.actionHomeScreenFragmentToDetailFragment(
-                noteId = noteItem.id,
-                title = noteItem.title,
-                description = noteItem.description,
+                noteId = note.id
             )
             findNavController().navigate(action)
         }
-
 
         binding.recyclerView.adapter = noteAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -44,13 +41,12 @@ class HomeScreenFragment : Fragment() {
 
         noteViewModel.allNotes.observe(viewLifecycleOwner) { notes ->
             noteList.clear()
-            noteList.addAll(notes.map { NoteItem(it.id, it.title, it.description) })
+            noteList.addAll(notes)
             noteAdapter.notifyDataSetChanged()
         }
 
         binding.addbutton.setOnClickListener {
-            val addFragment = AddDialog()
-            addFragment.show(parentFragmentManager, "AddFragment")
+            AddDialog().show(parentFragmentManager, "AddFragment")
         }
 
         return binding.root

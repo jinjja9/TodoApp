@@ -11,8 +11,6 @@ import com.example.todoapp.data.Note
 import com.example.todoapp.data.NoteViewModel
 import com.example.todoapp.databinding.FragmentAddBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.text.SimpleDateFormat
-import java.util.*
 
 class AddDialog : BottomSheetDialogFragment() {
 
@@ -22,14 +20,13 @@ class AddDialog : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAddBinding.inflate(inflater, container, false)
         noteViewModel = ViewModelProvider(requireActivity()).get(NoteViewModel::class.java)
 
         binding.buttonadd.setOnClickListener {
             val title = binding.titleAddText.text.toString()
             val description = binding.descriptionAddText.text.toString()
-            val createDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
 
             if (title.isNotBlank() && description.isNotBlank()) {
                 val note = Note(0, title, description)

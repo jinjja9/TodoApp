@@ -8,12 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.todoapp.R
 import com.example.todoapp.data.Note
 import com.example.todoapp.data.NoteViewModel
 import com.example.todoapp.databinding.FragmentEditBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.util.*
 
 class EditDialog : BottomSheetDialogFragment() {
 
@@ -55,29 +53,22 @@ class EditDialog : BottomSheetDialogFragment() {
             }
         }
 
-
         return binding.root
     }
+
     private fun showSaveConfirmationDialog(newTitle: String, newDescription: String) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Save Note")
-        builder.setMessage("Are you sure you want to save this note?")
-
-        builder.setPositiveButton("Save") { dialog, _ ->
-            val updatedNote = Note(noteId, newTitle, newDescription)
-            noteViewModel.update(updatedNote)
-
-            dismiss()
-            findNavController().popBackStack() //*
-            //findNavController().navigate(R.id.action_editFragment_to_homeScreenFragment)
-            //dialog.dismiss()
-        }
-
-        builder.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
-        }
-
-        builder.create().show()
+        AlertDialog.Builder(requireContext())
+            .setTitle("Save Note")
+            .setMessage("Are you sure you want to save this note?")
+            .setPositiveButton("Save") { dialog, _ ->
+                val updatedNote = Note(noteId, newTitle, newDescription)
+                noteViewModel.update(updatedNote)
+                dismiss()
+                findNavController().popBackStack()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create().show()
     }
-
 }

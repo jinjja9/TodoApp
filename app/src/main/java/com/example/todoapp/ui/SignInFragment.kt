@@ -34,10 +34,7 @@ class SignInFragment : Fragment() {
         }
 
         binding.buttonsignin.setOnClickListener {
-            val title = "Your title" // Thay đổi giá trị này theo ý bạn
-            val description = "Your description" // Thay đổi giá trị này theo ý bạn
-            val action = SignInFragmentDirections.actionSignInFragmentToHomeScreenFragment(title, description)
-            findNavController().navigate(action)
+            findNavController().navigate(R.id.action_signInFragment_to_homeScreenFragment)
         }
 
         // An-Hien Pass
