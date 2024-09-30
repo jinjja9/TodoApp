@@ -37,6 +37,7 @@ class DetailFragment : Fragment() {
             note?.let {
                 binding.title.text = it.title
                 binding.description.text = it.description
+                binding.deadlinedate.text=it.deadline
             }
         })
 
@@ -52,6 +53,7 @@ class DetailFragment : Fragment() {
                     putInt("noteId", noteId)
                     putString("title", binding.title.text.toString())
                     putString("description", binding.description.text.toString())
+                    putString("deadline", binding.deadlinedate.text.toString())
                 }
             }
             editDialog.show(parentFragmentManager, "EditDialog")
@@ -70,7 +72,9 @@ class DetailFragment : Fragment() {
             .setTitle("Delete TODO")
             .setMessage("Are you sure you want to delete this TODO?")
             .setPositiveButton("Delete") { dialog, _ ->
-                val noteToDelete = Note(noteId, binding.title.text.toString(), binding.description.text.toString())
+                val noteToDelete = Note(noteId, binding.title.text.toString(), binding.description.text.toString(),
+                    null.toString()
+                )
                 noteViewModel.delete(noteToDelete)
                 findNavController().popBackStack()
                 dialog.dismiss()

@@ -67,6 +67,7 @@
         android:hint="Dealine (Optional)"
         android:padding="10dp"
         android:textColorHint="@color/white"
+        android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/descriptionAddText" />
 
     <EditText
@@ -78,7 +79,8 @@
         android:hint="Add Image (Optional)"
         android:padding="10dp"
         android:textColorHint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/Addtime" />
+        app:layout_constraintTop_toBottomOf="@id/Addtime"
+        android:textColor="@color/white"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonadd"
@@ -95,6 +97,7 @@
         app:layout_constraintTop_toBottomOf="@id/AddImage" />
 
     <ImageView
+        android:id="@+id/Adddate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/settime"

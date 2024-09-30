@@ -15,6 +15,7 @@ class NoteAdapter(
         fun bind(note: Note, onItemClick: (Note) -> Unit) {
             binding.noteTitle.text = note.title
             binding.noteDescription.text = note.description
+            binding.deadlinedate.text=note.deadline
             binding.root.setOnClickListener {
                 onItemClick(note)
             }

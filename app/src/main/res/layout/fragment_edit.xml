@@ -63,7 +63,8 @@
         android:hint="Dealine (Optional)"
         android:padding="10dp"
         android:textColorHint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/descriptionAddText" />
+        app:layout_constraintTop_toBottomOf="@id/descriptionAddText"
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/AddImage"
@@ -91,6 +92,7 @@
         app:layout_constraintTop_toBottomOf="@id/AddImage" />
 
     <ImageView
+        android:id="@+id/Adddate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/settime"

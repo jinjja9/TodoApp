@@ -27,7 +27,6 @@ class HomeScreenFragment : Fragment() {
         binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
 
         noteAdapter = NoteAdapter(noteList) { note ->
-            // Chỉ truyền noteId thay vì cả title và description
             val action = HomeScreenFragmentDirections.actionHomeScreenFragmentToDetailFragment(
                 noteId = note.id
             )
