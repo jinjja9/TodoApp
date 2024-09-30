@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".DetailFragment">
+    tools:context=".ui.DetailFragment">
 
     <ImageView
         android:id="@+id/left"
@@ -78,11 +78,11 @@
         />
 
     <TextView
-        android:id="@+id/createdate"
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Created at 1 Sept 2021"
-        android:textSize="15sp"
+        android:text="Deadline:"
+        android:textSize="20sp"
         android:textColor="#272727"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,8 +90,25 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="60dp"
         app:layout_constraintVertical_bias="0.985"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.4"
         android:textStyle="italic"
+        />
+
+    <TextView
+        android:id="@+id/deadlinedate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20sp"
+        android:textColor="#272727"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/date"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="60dp"
+        app:layout_constraintVertical_bias="0.985"
+        app:layout_constraintHorizontal_bias="0.4"
+        android:textStyle="italic"
+        android:layout_marginStart="5dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

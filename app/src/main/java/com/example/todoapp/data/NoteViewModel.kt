@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.example.todoapp.model.Note
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -32,11 +33,12 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     fun delete(note: Note) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteNote(note)
+            repository.deleteNoteById(note.id)
         }
     }
 
-    fun getNoteById(noteId: Int): LiveData<Note> {  // Thêm hàm này
+
+    fun getNoteById(noteId: Int): LiveData<Note?> {
         return repository.getNoteById(noteId)
     }
 }

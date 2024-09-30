@@ -1,4 +1,4 @@
-package com.example.todoapp
+package com.example.todoapp.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.todoapp.data.Note
+import com.example.todoapp.adapter.NoteAdapter
+import com.example.todoapp.model.Note
 import com.example.todoapp.data.NoteViewModel
 import com.example.todoapp.databinding.FragmentHomeScreenBinding
 import com.example.todoapp.dialog.AddDialog
@@ -27,7 +28,6 @@ class HomeScreenFragment : Fragment() {
         binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
 
         noteAdapter = NoteAdapter(noteList) { note ->
-            // Chỉ truyền noteId thay vì cả title và description
             val action = HomeScreenFragmentDirections.actionHomeScreenFragmentToDetailFragment(
                 noteId = note.id
             )

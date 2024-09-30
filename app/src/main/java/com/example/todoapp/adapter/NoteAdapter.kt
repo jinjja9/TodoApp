@@ -1,9 +1,9 @@
-package com.example.todoapp
+package com.example.todoapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todoapp.data.Note
+import com.example.todoapp.model.Note
 import com.example.todoapp.databinding.NoteItemBinding
 
 class NoteAdapter(
@@ -15,6 +15,7 @@ class NoteAdapter(
         fun bind(note: Note, onItemClick: (Note) -> Unit) {
             binding.noteTitle.text = note.title
             binding.noteDescription.text = note.description
+            binding.deadlinedate.text=note.deadline
             binding.root.setOnClickListener {
                 onItemClick(note)
             }
