@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#A4CBFF"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/element"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:src="@drawable/element"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/titleAddText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/edit_text_border_dia"
+        android:hint="Title"
+        android:padding="10dp"
+        android:textColorHint="@color/white"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:scrollbars="vertical"
+        android:inputType="textMultiLine"
+        android:overScrollMode="always"
+        app:layout_constraintTop_toBottomOf="@id/element"
+        android:textColor="@color/white"
+        />
+
+
+
+    <EditText
+        android:id="@+id/descriptionAddText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/edit_text_border_dia"
+        android:hint="Description"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+        android:minHeight="250dp"
+        android:gravity="top"
+        android:scrollbars="vertical"
+        android:overScrollMode="always"
+        android:inputType="textMultiLine"
+        android:maxLines="10"
+        android:scrollHorizontally="false"
+        android:textColorHint="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/titleAddText"
+        android:textColor="@color/white"/>
+
+
+    <EditText
+        android:id="@+id/Addtime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/edit_text_border_dia"
+        android:hint="Dealine (Optional)"
+        android:padding="10dp"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/descriptionAddText" />
+
+    <EditText
+        android:id="@+id/AddImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/edit_text_border_dia"
+        android:hint="Add Image (Optional)"
+        android:padding="10dp"
+        android:textColorHint="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/Addtime"
+        android:textColor="@color/white"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonadd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/white"
+        android:padding="10dp"
+        android:text="ADD TODO"
+        android:textColor="#A4CBFF"
+        android:textSize="20sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/AddImage" />
+
+    <ImageView
+        android:id="@+id/Adddate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/settime"
+        app:layout_constraintEnd_toEndOf="@id/Addtime"
+        app:layout_constraintBottom_toBottomOf="@id/Addtime"
+        app:layout_constraintTop_toTopOf="@id/Addtime"
+        android:layout_marginEnd="10dp"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/image"
+        app:layout_constraintEnd_toEndOf="@id/AddImage"
+        app:layout_constraintBottom_toBottomOf="@id/AddImage"
+        app:layout_constraintTop_toTopOf="@id/AddImage"
+        android:layout_marginEnd="10dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
