@@ -1,7 +1,8 @@
-package com.example.todoapp.data
+package com.example.todoapp.data.respository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.todoapp.data.dao.NoteDao
 import com.example.todoapp.model.Note
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

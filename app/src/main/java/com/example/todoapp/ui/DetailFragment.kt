@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.model.Note
-import com.example.todoapp.data.NoteViewModel
+import com.example.todoapp.data.viewmodel.NoteViewModel
 import com.example.todoapp.databinding.FragmentDetailBinding
 import com.example.todoapp.dialog.EditDialog
 
@@ -19,6 +19,7 @@ class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
     private lateinit var noteViewModel: NoteViewModel
     private var noteId: Int = 0
+    private var categoryId: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +37,8 @@ class DetailFragment : Fragment() {
             note?.let {
                 binding.title.text = it.title
                 binding.description.text = it.description
-                binding.deadlinedate.text=it.deadline
+                binding.deadlinedate.text = it.deadline
+                categoryId = it.categoryId // Lấy categoryId từ note
             }
         })
 
@@ -53,6 +55,7 @@ class DetailFragment : Fragment() {
                     putString("title", binding.title.text.toString())
                     putString("description", binding.description.text.toString())
                     putString("deadline", binding.deadlinedate.text.toString())
+                    putInt("categoryId", categoryId ?: 0) // Truyền categoryId
                 }
             }
             editDialog.show(parentFragmentManager, "EditDialog")
@@ -71,8 +74,12 @@ class DetailFragment : Fragment() {
             .setTitle("Delete TODO")
             .setMessage("Are you sure you want to delete this TODO?")
             .setPositiveButton("Delete") { dialog, _ ->
-                val noteToDelete = Note(noteId, binding.title.text.toString(), binding.description.text.toString(),
-                    null.toString()
+                val noteToDelete = Note(
+                    noteId,
+                    binding.title.text.toString(),
+                    binding.description.text.toString(),
+                    binding.deadlinedate.text.toString(),
+                    categoryId ?: 0 // Kiểm tra nếu categoryId là null thì truyền 0
                 )
                 noteViewModel.delete(noteToDelete)
                 findNavController().popBackStack()
@@ -83,4 +90,6 @@ class DetailFragment : Fragment() {
             }
             .create().show()
     }
+
+
 }

@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.model.Note
-import com.example.todoapp.data.NoteViewModel
+import com.example.todoapp.data.viewmodel.NoteViewModel
 import com.example.todoapp.databinding.FragmentEditBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.Calendar
@@ -24,6 +24,7 @@ class EditDialog : BottomSheetDialogFragment() {
     private var title: String? = null
     private var description: String? = null
     private var deadline: String? = null
+    private var categoryId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +34,7 @@ class EditDialog : BottomSheetDialogFragment() {
             title = it.getString("title")
             description = it.getString("description")
             deadline = it.getString("deadline")
-        }
+            categoryId = it.getInt("categoryId")         }
     }
 
     override fun onCreateView(
@@ -89,7 +90,7 @@ class EditDialog : BottomSheetDialogFragment() {
             .setTitle("Save Note")
             .setMessage("Are you sure you want to save this note?")
             .setPositiveButton("Save") { dialog, _ ->
-                val updatedNote = Note(noteId, newTitle, newDescription, newDeadline)
+                val updatedNote = Note(noteId, newTitle, newDescription, newDeadline, categoryId) // Sử dụng ID của Category
                 noteViewModel.update(updatedNote)
                 dismiss()
                 findNavController().popBackStack()
@@ -99,4 +100,5 @@ class EditDialog : BottomSheetDialogFragment() {
             }
             .create().show()
     }
+
 }

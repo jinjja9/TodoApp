@@ -1,9 +1,11 @@
-package com.example.todoapp.data
+package com.example.todoapp.data.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.example.todoapp.data.NoteDatabase
+import com.example.todoapp.data.respository.NoteRepository
 import com.example.todoapp.model.Note
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
