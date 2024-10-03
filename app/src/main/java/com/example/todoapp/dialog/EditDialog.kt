@@ -2,17 +2,21 @@ package com.example.todoapp.dialog
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.todoapp.R
 import com.example.todoapp.model.Note
 import com.example.todoapp.data.viewmodel.NoteViewModel
 import com.example.todoapp.databinding.FragmentEditBinding
+import com.example.todoapp.model.Category
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.Calendar
 
@@ -25,10 +29,15 @@ class EditDialog : BottomSheetDialogFragment() {
     private var title: String? = null
     private var description: String? = null
     private var deadline: String? = null
-<<<<<<< HEAD
     private var categoryId: Int? = null
-=======
->>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c
+
+    private val categoryList = listOf(
+        Category(id = 1, name = "Work", iconResId = R.drawable.work),
+        Category(id = 2, name = "Personal", iconResId = R.drawable.personal),
+        Category(id = 3, name = "Shopping", iconResId = R.drawable.shopping),
+        Category(id = 4, name = "Health", iconResId = R.drawable.heart),
+        Category(id = 5, name = "Other", iconResId = R.drawable.others)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +47,8 @@ class EditDialog : BottomSheetDialogFragment() {
             title = it.getString("title")
             description = it.getString("description")
             deadline = it.getString("deadline")
-<<<<<<< HEAD
-            categoryId = it.getInt("categoryId")         }
-=======
+            categoryId = it.getInt("categoryId")
         }
->>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c
     }
 
     override fun onCreateView(
@@ -61,19 +67,48 @@ class EditDialog : BottomSheetDialogFragment() {
             showDatePickerDialog()
         }
 
+        setupCategorySpinner()
+        categoryId?.let { setCategorySpinnerSelection(it) }
+
         binding.buttonsave.setOnClickListener {
             val newTitle = binding.titleAddText.text.toString()
             val newDescription = binding.descriptionAddText.text.toString()
             val newDeadline = binding.Addtime.text.toString()
 
             if (newTitle.isNotBlank() && newDescription.isNotBlank()) {
-                showSaveConfirmationDialog(newTitle, newDescription, newDeadline)
+                // Lấy categoryId từ Spinner
+                val selectedCategoryPosition = binding.categorySpinner.selectedItemPosition
+                val selectedCategory = categoryList[selectedCategoryPosition]
+                val newCategoryId = selectedCategory.id
+
+                showSaveConfirmationDialog(newTitle, newDescription, newDeadline, newCategoryId)
             } else {
                 Toast.makeText(requireContext(), "Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show()
             }
         }
 
         return binding.root
+    }
+
+    private fun setupCategorySpinner() {
+        val categoryNames = categoryList.map { it.name }.toTypedArray()
+        binding.categorySpinner.adapter = object : ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, categoryNames) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent) as TextView
+                view.setTextColor(Color.WHITE)
+                return view
+            }
+        }.also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+    }
+
+
+    private fun setCategorySpinnerSelection(selectedCategoryId: Int) {
+        val position = categoryList.indexOfFirst { it.id == selectedCategoryId }
+        if (position >= 0) {
+            binding.categorySpinner.setSelection(position)
+        }
     }
 
     private fun showDatePickerDialog() {
@@ -93,16 +128,12 @@ class EditDialog : BottomSheetDialogFragment() {
         datePickerDialog.show()
     }
 
-    private fun showSaveConfirmationDialog(newTitle: String, newDescription: String, newDeadline: String) {
+    private fun showSaveConfirmationDialog(newTitle: String, newDescription: String, newDeadline: String, newCategoryId: Int) {
         AlertDialog.Builder(requireContext())
             .setTitle("Save Note")
             .setMessage("Are you sure you want to save this note?")
             .setPositiveButton("Save") { dialog, _ ->
-<<<<<<< HEAD
-                val updatedNote = Note(noteId, newTitle, newDescription, newDeadline, categoryId) // Sử dụng ID của Category
-=======
-                val updatedNote = Note(noteId, newTitle, newDescription, newDeadline)
->>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c
+                val updatedNote = Note(noteId, newTitle, newDescription, newDeadline, newCategoryId)
                 noteViewModel.update(updatedNote)
                 dismiss()
                 findNavController().popBackStack()
@@ -112,5 +143,5 @@ class EditDialog : BottomSheetDialogFragment() {
             }
             .create().show()
     }
-
 }
+
