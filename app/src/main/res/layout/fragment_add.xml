@@ -79,17 +79,9 @@
         android:layout_margin="20dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/edit_text_border_dia"
-<<<<<<< HEAD
         app:layout_constraintTop_toBottomOf="@id/Addtime"
         tools:layout_editor_absoluteX="20dp" />
 
-=======
-        android:hint="Add Image (Optional)"
-        android:padding="10dp"
-        android:textColorHint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/Addtime"
-        android:textColor="@color/white"/>
->>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonadd"

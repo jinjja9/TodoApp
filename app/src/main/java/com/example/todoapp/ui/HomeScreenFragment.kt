@@ -23,7 +23,6 @@ class HomeScreenFragment : Fragment() {
     private val noteList = mutableListOf<Note>()
     private lateinit var noteViewModel: NoteViewModel
 
-    // Danh sách các Category (bỏ thuộc tính color)
     private val categoryList = listOf(
         Category(id = 1, name = "Work", iconResId= R.drawable.work),
         Category(id = 2, name = "Personal", iconResId = R.drawable.personal),
@@ -38,12 +37,8 @@ class HomeScreenFragment : Fragment() {
     ): View {
         binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
 
-<<<<<<< HEAD:app/src/main/java/com/example/todoapp/ui/HomeScreenFragment.kt
         // Truyền danh sách category vào adapter
         noteAdapter = NoteAdapter(noteList, categoryList) { note ->
-=======
-        noteAdapter = NoteAdapter(noteList) { note ->
->>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c:app/src/main/java/com/example/todoapp/HomeScreenFragment.kt
             val action = HomeScreenFragmentDirections.actionHomeScreenFragmentToDetailFragment(
                 noteId = note.id
             )
