@@ -1,3 +1,4 @@
+
 package com.example.todoapp.ui
 
 import android.app.AlertDialog
@@ -37,12 +38,8 @@ class DetailFragment : Fragment() {
             note?.let {
                 binding.title.text = it.title
                 binding.description.text = it.description
-<<<<<<< HEAD:app/src/main/java/com/example/todoapp/ui/DetailFragment.kt
                 binding.deadlinedate.text = it.deadline
                 categoryId = it.categoryId // Lấy categoryId từ note
-=======
-                binding.deadlinedate.text=it.deadline
->>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c:app/src/main/java/com/example/todoapp/DetailFragment.kt
             }
         })
 
@@ -59,10 +56,7 @@ class DetailFragment : Fragment() {
                     putString("title", binding.title.text.toString())
                     putString("description", binding.description.text.toString())
                     putString("deadline", binding.deadlinedate.text.toString())
-<<<<<<< HEAD:app/src/main/java/com/example/todoapp/ui/DetailFragment.kt
                     putInt("categoryId", categoryId ?: 0) // Truyền categoryId
-=======
->>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c:app/src/main/java/com/example/todoapp/DetailFragment.kt
                 }
             }
             editDialog.show(parentFragmentManager, "EditDialog")
@@ -81,17 +75,12 @@ class DetailFragment : Fragment() {
             .setTitle("Delete TODO")
             .setMessage("Are you sure you want to delete this TODO?")
             .setPositiveButton("Delete") { dialog, _ ->
-<<<<<<< HEAD:app/src/main/java/com/example/todoapp/ui/DetailFragment.kt
                 val noteToDelete = Note(
                     noteId,
                     binding.title.text.toString(),
                     binding.description.text.toString(),
                     binding.deadlinedate.text.toString(),
                     categoryId ?: 0 // Kiểm tra nếu categoryId là null thì truyền 0
-=======
-                val noteToDelete = Note(noteId, binding.title.text.toString(), binding.description.text.toString(),
-                    null.toString()
->>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c:app/src/main/java/com/example/todoapp/DetailFragment.kt
                 )
                 noteViewModel.delete(noteToDelete)
                 findNavController().popBackStack()

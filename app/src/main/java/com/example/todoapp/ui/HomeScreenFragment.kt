@@ -38,12 +38,8 @@ class HomeScreenFragment : Fragment() {
     ): View {
         binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
 
-<<<<<<< HEAD:app/src/main/java/com/example/todoapp/ui/HomeScreenFragment.kt
         // Truyền danh sách category vào adapter
         noteAdapter = NoteAdapter(noteList, categoryList) { note ->
-=======
-        noteAdapter = NoteAdapter(noteList) { note ->
->>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c:app/src/main/java/com/example/todoapp/HomeScreenFragment.kt
             val action = HomeScreenFragmentDirections.actionHomeScreenFragmentToDetailFragment(
                 noteId = note.id
             )

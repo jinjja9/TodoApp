@@ -1,10 +1,7 @@
 package com.example.todoapp.dialog
 
 import android.app.DatePickerDialog
-<<<<<<< HEAD
 import android.graphics.Color
-=======
->>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,7 +33,6 @@ class AddDialog : BottomSheetDialogFragment() {
         binding = FragmentAddBinding.inflate(inflater, container, false)
         noteViewModel = ViewModelProvider(requireActivity()).get(NoteViewModel::class.java)
 
-<<<<<<< HEAD
         // Thiết lập Spinner với danh sách động
         binding.categorySpinner.apply {
             adapter = object : ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, categoryList) {
@@ -46,6 +42,11 @@ class AddDialog : BottomSheetDialogFragment() {
                     return view
                 }
 
+                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                    val view = super.getDropDownView(position, convertView, parent) as TextView
+                    view.setTextColor(Color.WHITE) // Đặt màu chữ là trắng cho dropdown
+                    return view
+                }
             }.also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
@@ -64,8 +65,6 @@ class AddDialog : BottomSheetDialogFragment() {
             }
         }
 
-=======
->>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c
         binding.Adddate.setOnClickListener {
             showDatePickerDialog()
         }
@@ -76,13 +75,8 @@ class AddDialog : BottomSheetDialogFragment() {
             val deadline = binding.Addtime.text.toString()
 
             if (title.isNotBlank() && description.isNotBlank()) {
-<<<<<<< HEAD
                 // Tạo đối tượng Note với category động
                 val note = Note(0, title, description, deadline, selectedCategoryId)
-=======
-                // Tạo đối tượng Note với thời gian
-                val note = Note(0, title, description, deadline)
->>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c
                 noteViewModel.insert(note)
                 dismiss()
             } else {
