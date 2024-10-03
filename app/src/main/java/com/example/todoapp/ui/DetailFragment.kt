@@ -1,4 +1,5 @@
-package com.example.todoapp
+
+package com.example.todoapp.ui
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -9,16 +10,27 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.todoapp.data.Note
-import com.example.todoapp.data.NoteViewModel
+import com.example.todoapp.R
+import com.example.todoapp.model.Note
+import com.example.todoapp.data.viewmodel.NoteViewModel
 import com.example.todoapp.databinding.FragmentDetailBinding
 import com.example.todoapp.dialog.EditDialog
+import com.example.todoapp.model.Category
 
 class DetailFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailBinding
     private lateinit var noteViewModel: NoteViewModel
     private var noteId: Int = 0
+    private var categoryId: Int? = null
+
+    private val categoryList = listOf(
+        Category(id = 1, name = "Work", iconResId = R.drawable.work),
+        Category(id = 2, name = "Personal", iconResId = R.drawable.personal),
+        Category(id = 3, name = "Shopping", iconResId = R.drawable.shopping),
+        Category(id = 4, name = "Health", iconResId = R.drawable.heart),
+        Category(id = 5, name = "Other", iconResId = R.drawable.others)
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,12 +44,15 @@ class DetailFragment : Fragment() {
             noteId = args.noteId
         }
 
-        // Sử dụng noteId để lấy thông tin từ ViewModel
         noteViewModel.getNoteById(noteId).observe(viewLifecycleOwner, Observer { note ->
             note?.let {
                 binding.title.text = it.title
                 binding.description.text = it.description
-                binding.deadlinedate.text=it.deadline
+                binding.deadlinedate.text = it.deadline
+                categoryId = it.categoryId
+
+                val categoryName = categoryList.find { category -> category.id == categoryId }?.name ?: "Unknown"
+                binding.category.text = categoryName
             }
         })
 
@@ -54,6 +69,7 @@ class DetailFragment : Fragment() {
                     putString("title", binding.title.text.toString())
                     putString("description", binding.description.text.toString())
                     putString("deadline", binding.deadlinedate.text.toString())
+                    putInt("categoryId", categoryId ?: 0) // Truyền categoryId
                 }
             }
             editDialog.show(parentFragmentManager, "EditDialog")
@@ -72,8 +88,12 @@ class DetailFragment : Fragment() {
             .setTitle("Delete TODO")
             .setMessage("Are you sure you want to delete this TODO?")
             .setPositiveButton("Delete") { dialog, _ ->
-                val noteToDelete = Note(noteId, binding.title.text.toString(), binding.description.text.toString(),
-                    null.toString()
+                val noteToDelete = Note(
+                    noteId,
+                    binding.title.text.toString(),
+                    binding.description.text.toString(),
+                    binding.deadlinedate.text.toString(),
+                    categoryId ?: 0
                 )
                 noteViewModel.delete(noteToDelete)
                 findNavController().popBackStack()
@@ -84,4 +104,6 @@ class DetailFragment : Fragment() {
             }
             .create().show()
     }
+
+
 }

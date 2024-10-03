@@ -1,4 +1,4 @@
-package com.example.todoapp.ui
+package com.example.todoapp.login
 
 import android.os.Bundle
 import android.text.InputType
@@ -10,28 +10,29 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.R
-import com.example.todoapp.databinding.FragmentForgetPasswordBinding
+import com.example.todoapp.databinding.FragmentSignUpBinding
 
 
-class ForgetPasswordFragment : Fragment() {
+class SignUpFragment : Fragment() {
 
-    private lateinit var binding: FragmentForgetPasswordBinding
+    private lateinit var binding: FragmentSignUpBinding
     private var isPasswordVisible = false
     private var isConfirmPasswordVisible = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding=FragmentForgetPasswordBinding.inflate(inflater,container,false)
+        binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.left.setOnClickListener {
-            findNavController().navigate(R.id.action_forgetPasswordFragment_to_signInFragment)
+        binding.textlogin.setOnClickListener {
+            findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
         }
 
         binding.imageViewEye.setOnClickListener {
@@ -47,16 +48,17 @@ class ForgetPasswordFragment : Fragment() {
             )
             isConfirmPasswordVisible = !isConfirmPasswordVisible
         }
-
     }
-    private fun togglePasswordVisibility(editText: EditText, imageView: ImageView, isVisible: Boolean)
-    {
-        if(isVisible)
-        {
-            editText.inputType=InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+
+    private fun togglePasswordVisibility(
+        editText: EditText,
+        imageView: ImageView,
+        isVisible: Boolean
+    ) {
+        if (isVisible) {
+            editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             imageView.setImageResource(R.drawable.eye_off)
-        }
-        else {
+        } else {
             editText.inputType =
                 InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
             imageView.setImageResource(R.drawable.eye_on)

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.example.todoapp.ui.SignInFragment"
+        android:name="com.example.todoapp.login.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in">
         <action
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.todoapp.ui.SignUpFragment"
+        android:name="com.example.todoapp.login.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up">
         <action
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/forgetPasswordFragment"
-        android:name="com.example.todoapp.ui.ForgetPasswordFragment"
+        android:name="com.example.todoapp.login.ForgetPasswordFragment"
         android:label="fragment_forget_password"
         tools:layout="@layout/fragment_forget_password">
         <action
@@ -49,7 +49,7 @@
 
     <fragment
         android:id="@+id/homeScreenFragment"
-        android:name="com.example.todoapp.HomeScreenFragment"
+        android:name="com.example.todoapp.ui.HomeScreenFragment"
         android:label="fragment_home_screen"
         tools:layout="@layout/fragment_home_screen">
         <action
@@ -65,7 +65,7 @@
 
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.todoapp.DetailFragment"
+        android:name="com.example.todoapp.ui.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail">
         <action

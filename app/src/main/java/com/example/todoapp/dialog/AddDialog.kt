@@ -1,15 +1,18 @@
 package com.example.todoapp.dialog
 
 import android.app.DatePickerDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.todoapp.data.Note
-import com.example.todoapp.data.NoteViewModel
+import com.example.todoapp.model.Note
+import com.example.todoapp.data.viewmodel.NoteViewModel
 import com.example.todoapp.databinding.FragmentAddBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.Calendar
@@ -19,12 +22,42 @@ class AddDialog : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentAddBinding
     private lateinit var noteViewModel: NoteViewModel
 
+    // Danh sách category động
+    private val categoryList = listOf("Work", "Personal", "Shopping", "Health", "Other")
+    private var selectedCategoryId: Int = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAddBinding.inflate(inflater, container, false)
         noteViewModel = ViewModelProvider(requireActivity()).get(NoteViewModel::class.java)
+
+        binding.categorySpinner.apply {
+            adapter = object : ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, categoryList) {
+                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                    val view = super.getView(position, convertView, parent) as TextView
+                    view.setTextColor(Color.WHITE) // Đặt màu chữ là trắng
+                    return view
+                }
+
+            }.also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            }
+
+            // Xử lý sự kiện chọn category
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?, view: View?, position: Int, id: Long
+                ) {
+                    selectedCategoryId = position
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    selectedCategoryId = 0
+                }
+            }
+        }
 
         binding.Adddate.setOnClickListener {
             showDatePickerDialog()
@@ -36,8 +69,8 @@ class AddDialog : BottomSheetDialogFragment() {
             val deadline = binding.Addtime.text.toString()
 
             if (title.isNotBlank() && description.isNotBlank()) {
-                // Tạo đối tượng Note với thời gian
-                val note = Note(0, title, description, deadline)
+                // Tạo đối tượng Note với category động
+                val note = Note(0, title, description, deadline, selectedCategoryId)
                 noteViewModel.insert(note)
                 dismiss()
             } else {
