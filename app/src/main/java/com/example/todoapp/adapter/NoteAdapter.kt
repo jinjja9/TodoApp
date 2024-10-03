@@ -18,6 +18,7 @@ class NoteAdapter(
         fun bind(note: Note, categories: List<Category>, onItemClick: (Note) -> Unit) {
             binding.noteTitle.text = note.title
             binding.noteDescription.text = note.description
+<<<<<<< HEAD:app/src/main/java/com/example/todoapp/adapter/NoteAdapter.kt
             binding.deadlinedate.text = note.deadline ?: "Chưa có hạn chót"
 
             // Tìm danh mục tương ứng và cập nhật icon
@@ -28,6 +29,9 @@ class NoteAdapter(
                 binding.iconcategory.setImageResource(R.drawable.others) // Ảnh mặc định nếu không tìm thấy
             }
 
+=======
+            binding.deadlinedate.text=note.deadline
+>>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c:app/src/main/java/com/example/todoapp/NoteAdapter.kt
             binding.root.setOnClickListener {
                 onItemClick(note)
             }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.model.Note
@@ -24,7 +25,10 @@ class EditDialog : BottomSheetDialogFragment() {
     private var title: String? = null
     private var description: String? = null
     private var deadline: String? = null
+<<<<<<< HEAD
     private var categoryId: Int? = null
+=======
+>>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +38,11 @@ class EditDialog : BottomSheetDialogFragment() {
             title = it.getString("title")
             description = it.getString("description")
             deadline = it.getString("deadline")
+<<<<<<< HEAD
             categoryId = it.getInt("categoryId")         }
+=======
+        }
+>>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c
     }
 
     override fun onCreateView(
@@ -90,7 +98,11 @@ class EditDialog : BottomSheetDialogFragment() {
             .setTitle("Save Note")
             .setMessage("Are you sure you want to save this note?")
             .setPositiveButton("Save") { dialog, _ ->
+<<<<<<< HEAD
                 val updatedNote = Note(noteId, newTitle, newDescription, newDeadline, categoryId) // Sử dụng ID của Category
+=======
+                val updatedNote = Note(noteId, newTitle, newDescription, newDeadline)
+>>>>>>> 5083fc4cb0e587903443b5cba517b316f862647c
                 noteViewModel.update(updatedNote)
                 dismiss()
                 findNavController().popBackStack()
