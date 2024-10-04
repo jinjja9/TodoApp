@@ -8,13 +8,16 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import android.content.Context
 import com.example.todoapp.data.dao.CategoryDao
 import com.example.todoapp.data.dao.NoteDao
+import com.example.todoapp.data.dao.UserDao
 import com.example.todoapp.model.Note
 import com.example.todoapp.model.Category
+import com.example.todoapp.model.User
 
-@Database(entities = [Note::class, Category::class], version = 1, exportSchema = false) // Đã tăng phiên bản lên 3
+@Database(entities = [Note::class, Category::class, User::class], version = 1, exportSchema = false) // Đã tăng phiên bản lên 3
 abstract class NoteDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
     abstract fun categoryDao(): CategoryDao
+    abstract fun userDao(): UserDao
 
     companion object {
         @Volatile

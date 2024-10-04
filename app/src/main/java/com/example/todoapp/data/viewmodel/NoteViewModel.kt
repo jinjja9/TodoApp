@@ -48,4 +48,10 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     fun searchNotes(query: String): LiveData<List<Note>> {
         return repository.searchNotes(query)
     }
+
+    fun filterNotesByCategory(categoryId: Int): LiveData<List<Note>> {
+        return repository.getNotesByCategory(categoryId)
+    }
+
+
 }

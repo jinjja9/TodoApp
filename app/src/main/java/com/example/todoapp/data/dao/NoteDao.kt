@@ -29,4 +29,8 @@ interface NoteDao {
     @Query("SELECT * FROM note WHERE title LIKE '%' || :query || '%' OR description LIKE '%' || :query || '%'")
     fun searchNotes(query: String): LiveData<List<Note>>
 
+    @Query("SELECT * FROM note WHERE categoryId = :categoryId")
+    fun getNotesByCategory(categoryId: Int): LiveData<List<Note>>
+
+
 }
