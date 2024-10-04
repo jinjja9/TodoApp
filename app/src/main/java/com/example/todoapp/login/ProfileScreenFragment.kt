@@ -30,6 +30,13 @@ class ProfileScreenFragment : Fragment() {
         binding.password.setOnClickListener {
             findNavController().navigate(R.id.action_profileScreenFragment_to_forgetPasswordFragment)
         }
+        binding.home.setOnClickListener {
+            findNavController().navigate(R.id.action_profileScreenFragment_to_homeScreenFragment)
+        }
+        binding.buttonlogout.setOnClickListener {
+            findNavController().navigate(R.id.action_profileScreenFragment_to_signInFragment)
+        }
+
 
         return binding.root
     }

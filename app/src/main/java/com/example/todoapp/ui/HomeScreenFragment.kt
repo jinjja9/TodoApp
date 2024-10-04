@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.InvalidationTracker
 import com.example.todoapp.R
 import com.example.todoapp.adapter.NoteAdapter
 import com.example.todoapp.model.Note
@@ -50,13 +48,14 @@ class HomeScreenFragment : Fragment() {
         }
 
         noteAdapter = NoteAdapter(noteList, categoryList) { note ->
-            val action = HomeScreenFragmentDirections.actionHomeScreenFragmentToDetailFragment(
-                noteId = note.id
-            )
+            val action = HomeScreenFragmentDirections.actionHomeScreenFragmentToDetailFragment(noteId = note.id)
             findNavController().navigate(action)
         }
-        binding.recyclerView.adapter = noteAdapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.recyclerView.apply {
+            adapter = noteAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
 
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
 
@@ -78,14 +77,12 @@ class HomeScreenFragment : Fragment() {
         }
 
         binding.setting.setOnClickListener {
-            // Tạo action với dữ liệu cần thiết
             val action = HomeScreenFragmentDirections.actionHomeScreenFragmentToProfileScreenFragment(
-                fullName ?: "", // Gán giá trị mặc định nếu null
-                email ?: ""     // Gán giá trị mặc định nếu null
+                fullName ?: "",
+                email ?: ""
             )
             findNavController().navigate(action)
         }
-
 
         // Thiết lập màu cho search view
         val searchText = binding.seaching.findViewById<android.widget.EditText>(androidx.appcompat.R.id.search_src_text)
@@ -115,7 +112,6 @@ class HomeScreenFragment : Fragment() {
     private fun showCategoryPopup(anchorView: View) {
         val inflater = LayoutInflater.from(requireContext())
         val popupView = inflater.inflate(R.layout.popup_category_filter, null)
-
         val popupWindow = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
 
         // TextView trong popup
@@ -138,7 +134,7 @@ class HomeScreenFragment : Fragment() {
             findViewById<TextView>(R.id.menu_item_other).setOnClickListener {
                 updateCategory("Other", popupWindow)
             }
-            findViewById<TextView>(R.id.menu_item_deadline).setOnClickListener { // Thêm sự kiện cho deadline
+            findViewById<TextView>(R.id.menu_item_deadline).setOnClickListener {
                 updateCategory("Deadline", popupWindow)
             }
         }
@@ -146,21 +142,11 @@ class HomeScreenFragment : Fragment() {
         popupWindow.showAsDropDown(anchorView)
     }
 
-
     private fun updateCategory(category: String, popupWindow: PopupWindow) {
         popupWindow.dismiss()
 
         // Cập nhật TextView `namefillter` theo danh mục được chọn
-        binding.namefillter.text = when (category) {
-            "All" -> "All"
-            "Work" -> "Work"
-            "Personal" -> "Personal"
-            "Shopping" -> "Shopping"
-            "Health" -> "Health"
-            "Other" -> "Other"
-            "Deadline" -> "Deadline"
-            else -> "All" // Giá trị mặc định
-        }
+        binding.namefillter.text = category
 
         when (category) {
             "All" -> {
@@ -179,7 +165,6 @@ class HomeScreenFragment : Fragment() {
         }
     }
 
-
     private fun filterNotesByCategory(categoryId: Int) {
         noteViewModel.filterNotesByCategory(categoryId).observe(viewLifecycleOwner) { filteredNotes ->
             noteList.clear()
@@ -196,5 +181,4 @@ class HomeScreenFragment : Fragment() {
             noteAdapter.notifyDataSetChanged()
         }
     }
-
 }

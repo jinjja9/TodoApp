@@ -24,7 +24,7 @@ class AddDialog : BottomSheetDialogFragment() {
 
     // Danh sách category động
     private val categoryList = listOf("Work", "Personal", "Shopping", "Health", "Other")
-    private var selectedCategoryId: Int = 0
+    private var selectedCategoryId: Int = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,11 +66,11 @@ class AddDialog : BottomSheetDialogFragment() {
                 override fun onItemSelected(
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
-                    selectedCategoryId = position // Lưu ID của danh mục đã chọn
+                    selectedCategoryId = position + 1 // Lưu ID của danh mục đã chọn, bắt đầu từ 1
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    selectedCategoryId = 0 // Gán giá trị mặc định
+                    selectedCategoryId = 1 // Gán giá trị mặc định
                 }
             }
         }
