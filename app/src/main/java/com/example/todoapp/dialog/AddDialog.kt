@@ -32,6 +32,24 @@ class AddDialog : BottomSheetDialogFragment() {
     ): View {
         binding = FragmentAddBinding.inflate(inflater, container, false)
         noteViewModel = ViewModelProvider(requireActivity()).get(NoteViewModel::class.java)
+
+        // Thiết lập adapter cho Spinner
+        setupCategorySpinner()
+
+        // Hiển thị DatePickerDialog khi nhấn vào nút chọn ngày
+        binding.Adddate.setOnClickListener {
+            showDatePickerDialog()
+        }
+
+        // Xử lý sự kiện thêm ghi chú
+        binding.buttonadd.setOnClickListener {
+            addNote()
+        }
+
+        return binding.root
+    }
+
+    private fun setupCategorySpinner() {
         binding.categorySpinner.apply {
             adapter = object : ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, categoryList) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -48,10 +66,24 @@ class AddDialog : BottomSheetDialogFragment() {
                 override fun onItemSelected(
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
+                    selectedCategoryId = position // Lưu ID của danh mục đã chọn
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    selectedCategoryId = 0 // Gán giá trị mặc định
                 }
             }
         }
     }
+
+    private fun addNote() {
+        val title = binding.titleAddText.text.toString()
+        val description = binding.descriptionAddText.text.toString()
+        val deadline = binding.Addtime.text.toString()
+
+        if (title.isBlank() || description.isBlank()) {
+            Toast.makeText(requireContext(), "Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show()
+            return
         }
 
         // Tạo đối tượng Note với category đã chọn
