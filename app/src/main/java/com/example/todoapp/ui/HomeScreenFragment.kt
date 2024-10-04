@@ -40,7 +40,6 @@ class HomeScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
-
         noteAdapter = NoteAdapter(noteList, categoryList) { note ->
             val action = HomeScreenFragmentDirections.actionHomeScreenFragmentToDetailFragment(
                 noteId = note.id
