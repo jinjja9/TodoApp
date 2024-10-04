@@ -32,7 +32,6 @@ class AddDialog : BottomSheetDialogFragment() {
     ): View {
         binding = FragmentAddBinding.inflate(inflater, container, false)
         noteViewModel = ViewModelProvider(requireActivity()).get(NoteViewModel::class.java)
-
         binding.categorySpinner.apply {
             adapter = object : ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, categoryList) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -40,7 +39,6 @@ class AddDialog : BottomSheetDialogFragment() {
                     view.setTextColor(Color.WHITE) // Đặt màu chữ là trắng
                     return view
                 }
-
             }.also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
@@ -50,35 +48,22 @@ class AddDialog : BottomSheetDialogFragment() {
                 override fun onItemSelected(
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
-                    selectedCategoryId = position
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    selectedCategoryId = 0
                 }
             }
         }
-
-        binding.Adddate.setOnClickListener {
-            showDatePickerDialog()
+    }
         }
 
-        binding.buttonadd.setOnClickListener {
-            val title = binding.titleAddText.text.toString()
-            val description = binding.descriptionAddText.text.toString()
-            val deadline = binding.Addtime.text.toString()
-
-            if (title.isNotBlank() && description.isNotBlank()) {
-                // Tạo đối tượng Note với category động
-                val note = Note(0, title, description, deadline, selectedCategoryId)
-                noteViewModel.insert(note)
-                dismiss()
-            } else {
-                Toast.makeText(requireContext(), "Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        return binding.root
+        // Tạo đối tượng Note với category đã chọn
+        val note = Note(
+            id = 0, // Room sẽ tự động sinh ID
+            title = title,
+            description = description,
+            deadline = if (deadline.isNotBlank()) deadline else null, // Kiểm tra deadline
+            categoryId = selectedCategoryId // Gán ID danh mục
+        )
+        noteViewModel.insert(note) // Lưu ghi chú thông qua ViewModel
+        dismiss() // Đóng dialog
     }
 
     private fun showDatePickerDialog() {
@@ -91,7 +76,7 @@ class AddDialog : BottomSheetDialogFragment() {
             requireContext(),
             { _, selectedYear, selectedMonth, selectedDay ->
                 val formattedDate = "${selectedDay}/${selectedMonth + 1}/$selectedYear"
-                binding.Addtime.setText(formattedDate)
+                binding.Addtime.setText(formattedDate) // Hiển thị ngày đã chọn trong EditText
             },
             year, month, day
         )

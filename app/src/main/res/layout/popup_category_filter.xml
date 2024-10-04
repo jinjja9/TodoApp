@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/popup_background"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/menu_item_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="All"
+        android:textSize="16sp"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/menu_item_deadline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Deadline"
+        android:textSize="16sp"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/menu_item_work"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Work"
+        android:textSize="16sp"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/menu_item_personal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Personal"
+        android:textSize="16sp"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/menu_item_shopping"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shopping"
+        android:textSize="16sp"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/menu_item_health"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Health"
+        android:textSize="16sp"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/menu_item_other"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Other"
+        android:textSize="16sp"
+        android:padding="10dp" />
+</LinearLayout>
