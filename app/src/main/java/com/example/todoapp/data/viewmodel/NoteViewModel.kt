@@ -44,4 +44,8 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     fun getNoteById(noteId: Int): LiveData<Note?> {
         return repository.getNoteById(noteId)
     }
+
+    fun searchNotes(query: String): LiveData<List<Note>> {
+        return repository.searchNotes(query)
+    }
 }
