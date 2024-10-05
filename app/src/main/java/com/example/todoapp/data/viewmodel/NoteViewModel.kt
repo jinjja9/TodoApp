@@ -53,5 +53,9 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         return repository.getNotesByCategory(categoryId)
     }
 
+    fun getNotesByIds(noteIds: IntArray): LiveData<List<Note>> {
+        return repository.getNotesByIds(noteIds)
+    }
+
 
 }

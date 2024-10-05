@@ -1,4 +1,3 @@
-
 package com.example.todoapp.ui
 
 import android.app.AlertDialog
@@ -16,6 +15,8 @@ import com.example.todoapp.data.viewmodel.NoteViewModel
 import com.example.todoapp.databinding.FragmentDetailBinding
 import com.example.todoapp.dialog.EditDialog
 import com.example.todoapp.model.Category
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class DetailFragment : Fragment() {
 
@@ -48,8 +49,12 @@ class DetailFragment : Fragment() {
             note?.let {
                 binding.title.text = it.title
                 binding.description.text = it.description
-                binding.deadlinedate.text = it.deadline
                 categoryId = it.categoryId
+
+                // Định dạng Date trước khi hiển thị
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val deadlineText = it.deadline?.let { date -> dateFormat.format(date) } ?: "No deadline"
+                binding.deadlinedate.text = deadlineText
 
                 val categoryName = categoryList.find { category -> category.id == categoryId }?.name ?: "Unknown"
                 binding.category.text = categoryName
@@ -63,17 +68,23 @@ class DetailFragment : Fragment() {
 
         // Edit
         binding.edit.setOnClickListener {
-            val editDialog = EditDialog().apply {
-                arguments = Bundle().apply {
-                    putInt("noteId", noteId)
-                    putString("title", binding.title.text.toString())
-                    putString("description", binding.description.text.toString())
-                    putString("deadline", binding.deadlinedate.text.toString())
-                    putInt("categoryId", categoryId ?: 0) // Truyền categoryId
+            noteViewModel.getNoteById(noteId).observe(viewLifecycleOwner, Observer { note ->
+                note?.let {
+                    val editDialog = EditDialog().apply {
+                        arguments = Bundle().apply {
+                            putInt("noteId", noteId)
+                            putString("title", it.title)
+                            putString("description", it.description)
+                            // Chuyển đổi deadline thành Long
+                            putLong("deadline", it.deadline?.time ?: -1L)
+                            it.categoryId?.let { it1 -> putInt("categoryId", it1) }
+                        }
+                    }
+                    editDialog.show(parentFragmentManager, "EditDialog")
                 }
-            }
-            editDialog.show(parentFragmentManager, "EditDialog")
+            })
         }
+
 
         // Delete
         binding.delete.setOnClickListener {
@@ -92,7 +103,7 @@ class DetailFragment : Fragment() {
                     noteId,
                     binding.title.text.toString(),
                     binding.description.text.toString(),
-                    binding.deadlinedate.text.toString(),
+                    noteViewModel.getNoteById(noteId).value?.deadline,  // Lấy deadline kiểu Date
                     categoryId ?: 0
                 )
                 noteViewModel.delete(noteToDelete)
@@ -104,6 +115,4 @@ class DetailFragment : Fragment() {
             }
             .create().show()
     }
-
-
 }

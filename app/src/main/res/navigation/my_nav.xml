@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_signInFragment_to_homeScreenFragment"
             app:destination="@id/homeScreenFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_profileScreenFragment"
+            app:destination="@id/profileScreenFragment" />
     </fragment>
 
     <fragment
@@ -29,6 +32,9 @@
         <action
             android:id="@+id/action_signUpFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_signUpFragment_to_profileScreenFragment"
+            app:destination="@id/profileScreenFragment" />
     </fragment>
 
     <fragment
@@ -43,9 +49,28 @@
 
     <fragment
         android:id="@+id/profileScreenFragment"
-        android:name="com.example.todoapp.profileScreenFragment"
+        android:name="com.example.todoapp.login.ProfileScreenFragment"
         android:label="fragment_profile_screen"
-        tools:layout="@layout/fragment_profile_screen" />
+        tools:layout="@layout/fragment_profile_screen" >
+        <action
+            android:id="@+id/action_profileScreenFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_profileScreenFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment" />
+        <argument
+            android:name="fullName"
+            app:argType="string" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_profileScreenFragment_to_forgetPasswordFragment"
+            app:destination="@id/forgetPasswordFragment" />
+        <action
+            android:id="@+id/action_profileScreenFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/homeScreenFragment"
@@ -61,6 +86,15 @@
         <action
             android:id="@+id/action_homeScreenFragment_to_addFragment"
             app:destination="@id/addFragment" />
+        <argument
+            android:name="FULL_NAME"
+            app:argType="string" />
+        <argument
+            android:name="EMAIL"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_calendarFragment"
+            app:destination="@id/calendarFragment" />
     </fragment>
 
     <fragment
@@ -100,6 +134,19 @@
         <action
             android:id="@+id/action_editFragment_to_homeScreenFragment"
             app:destination="@id/homeScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.example.todoapp.ui.CalendarFragment"
+        android:label="fragment_calendar"
+        tools:layout="@layout/fragment_calendar" >
+        <action
+            android:id="@+id/action_calendarFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment" />
+        <argument
+            android:name="noteIds"
+            app:argType="integer[]" />
+
     </fragment>
 
 </navigation>

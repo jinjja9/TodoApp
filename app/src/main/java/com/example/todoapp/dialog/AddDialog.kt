@@ -15,16 +15,17 @@ import com.example.todoapp.model.Note
 import com.example.todoapp.data.viewmodel.NoteViewModel
 import com.example.todoapp.databinding.FragmentAddBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.util.Calendar
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AddDialog : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentAddBinding
     private lateinit var noteViewModel: NoteViewModel
 
-    // Danh sách category động
     private val categoryList = listOf("Work", "Personal", "Shopping", "Health", "Other")
-    private var selectedCategoryId: Int = 0
+    private var selectedCategoryId: Int = 1
+    private var selectedDate: Date? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,15 +34,12 @@ class AddDialog : BottomSheetDialogFragment() {
         binding = FragmentAddBinding.inflate(inflater, container, false)
         noteViewModel = ViewModelProvider(requireActivity()).get(NoteViewModel::class.java)
 
-        // Thiết lập adapter cho Spinner
         setupCategorySpinner()
 
-        // Hiển thị DatePickerDialog khi nhấn vào nút chọn ngày
         binding.Adddate.setOnClickListener {
             showDatePickerDialog()
         }
 
-        // Xử lý sự kiện thêm ghi chú
         binding.buttonadd.setOnClickListener {
             addNote()
         }
@@ -54,23 +52,22 @@ class AddDialog : BottomSheetDialogFragment() {
             adapter = object : ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, categoryList) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                     val view = super.getView(position, convertView, parent) as TextView
-                    view.setTextColor(Color.WHITE) // Đặt màu chữ là trắng
+                    view.setTextColor(Color.WHITE)
                     return view
                 }
             }.also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
 
-            // Xử lý sự kiện chọn category
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
-                    selectedCategoryId = position // Lưu ID của danh mục đã chọn
+                    selectedCategoryId = position + 1
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    selectedCategoryId = 0 // Gán giá trị mặc định
+                    selectedCategoryId = 1
                 }
             }
         }
@@ -79,22 +76,20 @@ class AddDialog : BottomSheetDialogFragment() {
     private fun addNote() {
         val title = binding.titleAddText.text.toString()
         val description = binding.descriptionAddText.text.toString()
-        val deadline = binding.Addtime.text.toString()
 
         if (title.isBlank() || description.isBlank()) {
             Toast.makeText(requireContext(), "Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Tạo đối tượng Note với category đã chọn
         val note = Note(
-            id = 0, // Room sẽ tự động sinh ID
+            id = 0,
             title = title,
             description = description,
-            deadline = if (deadline.isNotBlank()) deadline else null, // Kiểm tra deadline
-            categoryId = selectedCategoryId // Gán ID danh mục
+            deadline = selectedDate,
+            categoryId = selectedCategoryId
         )
-        noteViewModel.insert(note) // Lưu ghi chú thông qua ViewModel
+        noteViewModel.insert(note)
         dismiss() // Đóng dialog
     }
 
@@ -107,8 +102,13 @@ class AddDialog : BottomSheetDialogFragment() {
         val datePickerDialog = DatePickerDialog(
             requireContext(),
             { _, selectedYear, selectedMonth, selectedDay ->
-                val formattedDate = "${selectedDay}/${selectedMonth + 1}/$selectedYear"
-                binding.Addtime.setText(formattedDate) // Hiển thị ngày đã chọn trong EditText
+                val selectedDateTime = Calendar.getInstance().apply {
+                    set(selectedYear, selectedMonth, selectedDay)
+                }
+                selectedDate = selectedDateTime.time // Lưu Date đã chọn
+
+                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                binding.Addtime.setText(formatter.format(selectedDate!!))
             },
             year, month, day
         )

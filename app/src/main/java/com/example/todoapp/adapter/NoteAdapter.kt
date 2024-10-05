@@ -7,6 +7,8 @@ import com.example.todoapp.R
 import com.example.todoapp.model.Note
 import com.example.todoapp.databinding.NoteItemBinding
 import com.example.todoapp.model.Category
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class NoteAdapter(
     private val noteList: List<Note>,
@@ -18,7 +20,11 @@ class NoteAdapter(
         fun bind(note: Note, categories: List<Category>, onItemClick: (Note) -> Unit) {
             binding.noteTitle.text = note.title
             binding.noteDescription.text = note.description
-            binding.deadlinedate.text = note.deadline ?: "Chưa có hạn chót"
+
+            // Chuyển đổi Date thành chuỗi để hiển thị
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val deadlineString = note.deadline?.let { dateFormat.format(it) } ?: ""
+            binding.deadlinedate.text = deadlineString
 
             val category = categories.find { it.id == note.categoryId }
             if (category != null) {
