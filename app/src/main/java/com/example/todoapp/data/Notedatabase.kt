@@ -3,8 +3,7 @@ package com.example.todoapp.data
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.room.TypeConverters  // Import TypeConverters
 import android.content.Context
 import com.example.todoapp.data.dao.CategoryDao
 import com.example.todoapp.data.dao.NoteDao
@@ -13,7 +12,8 @@ import com.example.todoapp.model.Note
 import com.example.todoapp.model.Category
 import com.example.todoapp.model.User
 
-@Database(entities = [Note::class, Category::class, User::class], version = 1, exportSchema = false) // Đã tăng phiên bản lên 3
+@Database(entities = [Note::class, Category::class, User::class], version = 2, exportSchema = false)
+@TypeConverters(DateConverter::class)  // Đăng ký TypeConverter ở đây
 abstract class NoteDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
     abstract fun categoryDao(): CategoryDao

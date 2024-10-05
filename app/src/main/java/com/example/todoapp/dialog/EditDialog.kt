@@ -18,7 +18,10 @@ import com.example.todoapp.data.viewmodel.NoteViewModel
 import com.example.todoapp.databinding.FragmentEditBinding
 import com.example.todoapp.model.Category
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class EditDialog : BottomSheetDialogFragment() {
 
@@ -28,7 +31,7 @@ class EditDialog : BottomSheetDialogFragment() {
     private var noteId: Int = 0
     private var title: String? = null
     private var description: String? = null
-    private var deadline: String? = null
+    private var deadline: Date? = null
     private var categoryId: Int? = null
 
     private val categoryList = listOf(
@@ -46,10 +49,16 @@ class EditDialog : BottomSheetDialogFragment() {
             noteId = it.getInt("noteId")
             title = it.getString("title")
             description = it.getString("description")
-            deadline = it.getString("deadline")
+
+            val deadlineLong = it.getLong("deadline", -1L)
+            if (deadlineLong != -1L) {
+                deadline = Date(deadlineLong)
+            }
+
             categoryId = it.getInt("categoryId")
         }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,10 +67,15 @@ class EditDialog : BottomSheetDialogFragment() {
         binding = FragmentEditBinding.inflate(inflater, container, false)
         noteViewModel = ViewModelProvider(requireActivity()).get(NoteViewModel::class.java)
 
-        // Điền thông tin vào EditText
         binding.titleAddText.setText(title)
         binding.descriptionAddText.setText(description)
-        binding.Addtime.setText(deadline)
+
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        if (deadline != null) {
+            binding.Addtime.setText(dateFormat.format(deadline))
+        } else {
+            binding.Addtime.setText("No deadline")
+        }
 
         binding.Adddate.setOnClickListener {
             showDatePickerDialog()
@@ -73,15 +87,13 @@ class EditDialog : BottomSheetDialogFragment() {
         binding.buttonsave.setOnClickListener {
             val newTitle = binding.titleAddText.text.toString()
             val newDescription = binding.descriptionAddText.text.toString()
-            val newDeadline = binding.Addtime.text.toString()
 
             if (newTitle.isNotBlank() && newDescription.isNotBlank()) {
-                // Lấy categoryId từ Spinner
                 val selectedCategoryPosition = binding.categorySpinner.selectedItemPosition
                 val selectedCategory = categoryList[selectedCategoryPosition]
                 val newCategoryId = selectedCategory.id
 
-                showSaveConfirmationDialog(newTitle, newDescription, newDeadline, newCategoryId)
+                showSaveConfirmationDialog(newTitle, newDescription, deadline, newCategoryId)
             } else {
                 Toast.makeText(requireContext(), "Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show()
             }
@@ -92,7 +104,11 @@ class EditDialog : BottomSheetDialogFragment() {
 
     private fun setupCategorySpinner() {
         val categoryNames = categoryList.map { it.name }.toTypedArray()
-        binding.categorySpinner.adapter = object : ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, categoryNames) {
+        binding.categorySpinner.adapter = object : ArrayAdapter<String>(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            categoryNames
+        ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent) as TextView
                 view.setTextColor(Color.WHITE)
@@ -102,7 +118,6 @@ class EditDialog : BottomSheetDialogFragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
     }
-
 
     private fun setCategorySpinnerSelection(selectedCategoryId: Int) {
         val position = categoryList.indexOfFirst { it.id == selectedCategoryId }
@@ -120,21 +135,25 @@ class EditDialog : BottomSheetDialogFragment() {
         val datePickerDialog = DatePickerDialog(
             requireContext(),
             { _, selectedYear, selectedMonth, selectedDay ->
-                val formattedDate = "${selectedDay}/${selectedMonth + 1}/$selectedYear"
-                binding.Addtime.setText(formattedDate)
+                calendar.set(Calendar.YEAR, selectedYear)
+                calendar.set(Calendar.MONTH, selectedMonth)
+                calendar.set(Calendar.DAY_OF_MONTH, selectedDay)
+                deadline = calendar.time  // Cập nhật deadline
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                binding.Addtime.setText(dateFormat.format(deadline))  // Hiển thị ngày
             },
             year, month, day
         )
         datePickerDialog.show()
     }
 
-    private fun showSaveConfirmationDialog(newTitle: String, newDescription: String, newDeadline: String, newCategoryId: Int) {
+    private fun showSaveConfirmationDialog(newTitle: String, newDescription: String, deadline: Date?, categoryId: Int) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Save Note")
-            .setMessage("Are you sure you want to save this note?")
+            .setTitle("Save TODO")
+            .setMessage("Are you sure you want to save this TODO?")
             .setPositiveButton("Save") { dialog, _ ->
-                val updatedNote = Note(noteId, newTitle, newDescription, newDeadline, newCategoryId)
-                noteViewModel.update(updatedNote)
+                val note = Note(noteId, newTitle, newDescription, deadline, categoryId)
+                noteViewModel.update(note)
                 dismiss()
                 findNavController().popBackStack()
             }
@@ -144,4 +163,3 @@ class EditDialog : BottomSheetDialogFragment() {
             .create().show()
     }
 }
-

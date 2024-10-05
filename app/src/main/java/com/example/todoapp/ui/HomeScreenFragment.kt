@@ -17,6 +17,8 @@ import com.example.todoapp.model.Category
 import com.example.todoapp.data.viewmodel.NoteViewModel
 import com.example.todoapp.databinding.FragmentHomeScreenBinding
 import com.example.todoapp.dialog.AddDialog
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HomeScreenFragment : Fragment() {
 
@@ -77,12 +79,13 @@ class HomeScreenFragment : Fragment() {
         }
 
         binding.calendar.setOnClickListener {
-            val noteIds = noteList.map { it.id }.toIntArray()
-            val action = HomeScreenFragmentDirections.actionHomeScreenFragmentToCalendarFragment(noteIds)
-            findNavController().navigate(action)
+            // Truyền danh sách ghi chú sang CalendarFragment
+            val bundle = Bundle().apply {
+                putSerializable("noteList", ArrayList(noteList)) // Chuyển đổi noteList thành ArrayList
+                putSerializable("categoryList", ArrayList(categoryList)) // Chuyển đổi categoryList thành ArrayList
+            }
+            findNavController().navigate(R.id.action_homeScreenFragment_to_calendarFragment, bundle)
         }
-
-
 
         binding.setting.setOnClickListener {
             val action = HomeScreenFragmentDirections.actionHomeScreenFragmentToProfileScreenFragment(
@@ -183,7 +186,8 @@ class HomeScreenFragment : Fragment() {
 
     private fun filterNotesByDeadline() {
         noteViewModel.allNotes.observe(viewLifecycleOwner) { notes ->
-            val filteredNotes = notes.filter { it.deadline != null && it.deadline.isNotEmpty() }
+            // Lọc ghi chú có deadline không null
+            val filteredNotes = notes.filter { it.deadline != null }
             noteList.clear()
             noteList.addAll(filteredNotes)
             noteAdapter.notifyDataSetChanged()

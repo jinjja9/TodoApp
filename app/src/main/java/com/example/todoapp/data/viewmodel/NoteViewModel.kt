@@ -57,4 +57,5 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         return repository.getNotesByIds(noteIds)
     }
 
+
 }
