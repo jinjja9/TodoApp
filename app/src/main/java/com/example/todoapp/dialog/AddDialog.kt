@@ -105,7 +105,7 @@ class AddDialog : BottomSheetDialogFragment() {
                 val selectedDateTime = Calendar.getInstance().apply {
                     set(selectedYear, selectedMonth, selectedDay)
                 }
-                selectedDate = selectedDateTime.time // Lưu Date đã chọn
+                selectedDate = selectedDateTime.time
 
                 val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 binding.Addtime.setText(formatter.format(selectedDate!!))

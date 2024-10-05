@@ -57,9 +57,8 @@ class CalendarFragment : Fragment() {
             notes.forEach { note ->
                 note.deadline?.let { deadline ->
                     val eventDay = Calendar.getInstance().apply { time = deadline }
-                    // Thay thế bằng drawable tác vụ của bạn
-                    val taskDrawable = R.drawable.task // Hình ảnh biểu tượng tác vụ
-                    eventDays.add(EventDay(eventDay, taskDrawable)) // Thêm biểu tượng tác vụ
+                    val taskDrawable = R.drawable.task
+                    eventDays.add(EventDay(eventDay, taskDrawable))
                 }
             }
 

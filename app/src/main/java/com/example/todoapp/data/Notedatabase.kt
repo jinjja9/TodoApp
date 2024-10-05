@@ -13,7 +13,7 @@ import com.example.todoapp.model.Category
 import com.example.todoapp.model.User
 
 @Database(entities = [Note::class, Category::class, User::class], version = 2, exportSchema = false)
-@TypeConverters(DateConverter::class)  // Đăng ký TypeConverter ở đây
+@TypeConverters(DateConverter::class)
 abstract class NoteDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
     abstract fun categoryDao(): CategoryDao

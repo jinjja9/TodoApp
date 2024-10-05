@@ -71,16 +71,14 @@ class HomeScreenFragment : Fragment() {
             AddDialog().show(parentFragmentManager, "AddFragment")
         }
 
-        // Nhấn vào biểu tượng filter để chọn category
         binding.filter.setOnClickListener {
             showCategoryPopup(it)
         }
 
         binding.calendar.setOnClickListener {
-            // Truyền danh sách ghi chú sang CalendarFragment
             val bundle = Bundle().apply {
-                putSerializable("noteList", ArrayList(noteList)) // Chuyển đổi noteList thành ArrayList
-                putSerializable("categoryList", ArrayList(categoryList)) // Chuyển đổi categoryList thành ArrayList
+                putSerializable("noteList", ArrayList(noteList))
+                putSerializable("categoryList", ArrayList(categoryList))
             }
             findNavController().navigate(R.id.action_homeScreenFragment_to_calendarFragment, bundle)
         }
@@ -160,7 +158,6 @@ class HomeScreenFragment : Fragment() {
     private fun updateCategory(category: String, popupWindow: PopupWindow) {
         popupWindow.dismiss()
 
-        // Cập nhật TextView `namefillter` theo danh mục được chọn
         binding.namefillter.text = category
 
         when (category) {
@@ -190,7 +187,6 @@ class HomeScreenFragment : Fragment() {
 
     private fun filterNotesByDeadline() {
         noteViewModel.allNotes.observe(viewLifecycleOwner) { notes ->
-            // Lọc ghi chú có deadline không null
             val filteredNotes = notes.filter { it.deadline != null }
             noteList.clear()
             noteList.addAll(filteredNotes)

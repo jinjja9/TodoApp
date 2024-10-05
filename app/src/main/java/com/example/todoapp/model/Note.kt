@@ -15,5 +15,5 @@ data class Note(
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "deadline") val deadline: Date?,
-    @ColumnInfo(name = "categoryId") val categoryId: Int? // ID của category
+    @ColumnInfo(name = "categoryId") val categoryId: Int?
 ): Serializable

@@ -21,7 +21,7 @@ class NoteAdapter(
             binding.noteTitle.text = note.title
             binding.noteDescription.text = note.description
 
-            // Chuyển đổi Date thành chuỗi để hiển thị
+            // date
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val deadlineString = note.deadline?.let { dateFormat.format(it) } ?: ""
             binding.deadlinedate.text = deadlineString

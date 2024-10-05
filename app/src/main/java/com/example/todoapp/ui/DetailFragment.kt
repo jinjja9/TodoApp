@@ -51,7 +51,6 @@ class DetailFragment : Fragment() {
                 binding.description.text = it.description
                 categoryId = it.categoryId
 
-                // Định dạng Date trước khi hiển thị
                 val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 val deadlineText = it.deadline?.let { date -> dateFormat.format(date) } ?: "No deadline"
                 binding.deadlinedate.text = deadlineText

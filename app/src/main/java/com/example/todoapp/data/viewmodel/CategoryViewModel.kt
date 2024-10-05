@@ -16,7 +16,7 @@ class CategoryViewModel(application: Application) : AndroidViewModel(application
     val allCategories: LiveData<List<Category>>
 
     init {
-        val categoryDao = NoteDatabase.getDatabase(application).categoryDao() // Cần đảm bảo có phương thức categoryDao trong Database
+        val categoryDao = NoteDatabase.getDatabase(application).categoryDao()
         repository = CategoryRepository(categoryDao)
         allCategories = repository.allCategories
     }

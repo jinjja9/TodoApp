@@ -20,11 +20,9 @@ class ProfileScreenFragment : Fragment() {
     ): View {
         binding = FragmentProfileScreenBinding.inflate(inflater, container, false)
 
-        // Nhận dữ liệu từ Bundle
-        val fullName = arguments?.getString("fullName") // Chú ý đến tên tham số
-        val email = arguments?.getString("email") // Chú ý đến tên tham số
+        val fullName = arguments?.getString("fullName")
+        val email = arguments?.getString("email")
 
-        // Hiển thị dữ liệu lên UI
         binding.fullname.text = fullName ?: "No name available"
         binding.email.text = email ?: "No email available"
         binding.password.setOnClickListener {
