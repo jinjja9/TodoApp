@@ -92,6 +92,9 @@
         <argument
             android:name="EMAIL"
             app:argType="string" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_calendarFragment"
+            app:destination="@id/calendarFragment" />
     </fragment>
 
     <fragment
@@ -131,6 +134,19 @@
         <action
             android:id="@+id/action_editFragment_to_homeScreenFragment"
             app:destination="@id/homeScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.example.todoapp.CalendarFragment"
+        android:label="fragment_calendar"
+        tools:layout="@layout/fragment_calendar" >
+        <action
+            android:id="@+id/action_calendarFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment" />
+        <argument
+            android:name="noteIds"
+            app:argType="integer[]" />
+
     </fragment>
 
 </navigation>

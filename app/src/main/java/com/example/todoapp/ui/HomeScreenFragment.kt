@@ -76,6 +76,14 @@ class HomeScreenFragment : Fragment() {
             showCategoryPopup(it)
         }
 
+        binding.calendar.setOnClickListener {
+            val noteIds = noteList.map { it.id }.toIntArray()
+            val action = HomeScreenFragmentDirections.actionHomeScreenFragmentToCalendarFragment(noteIds)
+            findNavController().navigate(action)
+        }
+
+
+
         binding.setting.setOnClickListener {
             val action = HomeScreenFragmentDirections.actionHomeScreenFragmentToProfileScreenFragment(
                 fullName ?: "",

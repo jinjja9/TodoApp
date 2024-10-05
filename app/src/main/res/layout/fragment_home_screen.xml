@@ -36,6 +36,20 @@
         app:layout_constraintVertical_bias="0.018" />
 
     <ImageView
+        android:id="@+id/calendar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="23dp"
+        android:src="@drawable/calendar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.87"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.018" />
+
+    <ImageView
         android:id="@+id/listof"
         android:layout_width="25dp"
         android:layout_height="25dp"

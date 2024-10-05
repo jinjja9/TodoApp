@@ -32,5 +32,8 @@ interface NoteDao {
     @Query("SELECT * FROM note WHERE categoryId = :categoryId")
     fun getNotesByCategory(categoryId: Int): LiveData<List<Note>>
 
+    @Query("SELECT * FROM note WHERE id IN (:noteIds)")
+    fun getNotesByIds(noteIds: IntArray): LiveData<List<Note>>
+
 
 }
